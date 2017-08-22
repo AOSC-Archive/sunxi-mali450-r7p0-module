@@ -56,7 +56,7 @@ export MALI_PLATFORM_FILES_ADD_PREFIX = $(addprefix platform/$(MALI_PLATFORM)/,$
 endif
 endif
 
-mali-y += \
+mali450-y += \
 	linux/mali_osk_atomics.o \
 	linux/mali_osk_irq.o \
 	linux/mali_osk_wq.o \
@@ -72,19 +72,19 @@ mali-y += \
 	linux/mali_osk_timers.o \
 	linux/mali_osk_bitmap.o
 
-mali-y += linux/mali_memory.o linux/mali_memory_os_alloc.o
-mali-y += linux/mali_memory_external.o
-mali-y += linux/mali_memory_block_alloc.o
-mali-y += linux/mali_memory_swap_alloc.o
+mali450-y += linux/mali_memory.o linux/mali_memory_os_alloc.o
+mali450-y += linux/mali_memory_external.o
+mali450-y += linux/mali_memory_block_alloc.o
+mali450-y += linux/mali_memory_swap_alloc.o
 
-mali-y += \
+mali450-y += \
 	linux/mali_memory_manager.o \
 	linux/mali_memory_virtual.o \
 	linux/mali_memory_util.o \
 	linux/mali_memory_cow.o \
 	linux/mali_memory_defer_bind.o
 
-mali-y += \
+mali450-y += \
 	linux/mali_ukk_mem.o \
 	linux/mali_ukk_gp.o \
 	linux/mali_ukk_pp.o \
@@ -92,12 +92,12 @@ mali-y += \
 	linux/mali_ukk_soft_job.o \
 	linux/mali_ukk_timeline.o
 
-mali-$(CONFIG_MALI_DEVFREQ) += \
+mali450-$(CONFIG_MALI_DEVFREQ) += \
 	linux/mali_devfreq.o \
 	common/mali_pm_metrics.o
 
 # Source files which always are included in a build
-mali-y += \
+mali450-y += \
 	common/mali_kernel_core.o \
 	linux/mali_kernel_linux.o \
 	common/mali_session.o \
@@ -135,35 +135,36 @@ mali-y += \
 	__malidrv_build_info.o
 
 ifneq ($(wildcard $(src)/linux/mali_slp_global_lock.c),)
-	mali-y += linux/mali_slp_global_lock.o
+	mali450-y += linux/mali_slp_global_lock.o
 endif
 
 ifneq ($(MALI_PLATFORM_FILES),)
-	mali-y += $(MALI_PLATFORM_FILES:.c=.o)
+	mali450-y += $(MALI_PLATFORM_FILES:.c=.o)
 endif
 
 ifneq ($(MALI_PLATFORM_FILES_ADD_PREFIX),)
-	mali-y += $(MALI_PLATFORM_FILES_ADD_PREFIX:.c=.o)
+	mali450-y += $(MALI_PLATFORM_FILES_ADD_PREFIX:.c=.o)
 endif
 
-mali-$(CONFIG_MALI400_PROFILING) += linux/mali_ukk_profiling.o
-mali-$(CONFIG_MALI400_PROFILING) += linux/mali_osk_profiling.o
+mali450-$(CONFIG_MALI400_PROFILING) += linux/mali_ukk_profiling.o
+mali450-$(CONFIG_MALI400_PROFILING) += linux/mali_osk_profiling.o
 
-mali-$(CONFIG_MALI400_INTERNAL_PROFILING) += linux/mali_profiling_internal.o timestamp-$(TIMESTAMP)/mali_timestamp.o
+mali450-$(CONFIG_MALI400_INTERNAL_PROFILING) += linux/mali_profiling_internal.o timestamp-$(TIMESTAMP)/mali_timestamp.o
 ccflags-$(CONFIG_MALI400_INTERNAL_PROFILING) += -I$(src)/timestamp-$(TIMESTAMP)
 
-mali-$(CONFIG_DMA_SHARED_BUFFER) += linux/mali_memory_dma_buf.o
-mali-$(CONFIG_DMA_SHARED_BUFFER) += linux/mali_memory_secure.o
-mali-$(CONFIG_SYNC) += linux/mali_sync.o
-mali-$(CONFIG_MALI_DMA_BUF_FENCE) += linux/mali_dma_fence.o
+mali450-$(CONFIG_DMA_SHARED_BUFFER) += linux/mali_memory_dma_buf.o
+mali450-$(CONFIG_DMA_SHARED_BUFFER) += linux/mali_memory_secure.o
+mali450-$(CONFIG_SYNC) += linux/mali_sync.o
+mali450-$(CONFIG_MALI_DMA_BUF_FENCE) += linux/mali_dma_fence.o
 ccflags-$(CONFIG_SYNC) += -Idrivers/staging/android
 
-mali-$(CONFIG_MALI400_UMP) += linux/mali_memory_ump.o
+mali450-$(CONFIG_MALI400_UMP) += linux/mali_memory_ump.o
 
-mali-$(CONFIG_MALI_DVFS) += common/mali_dvfs_policy.o
+mali450-$(CONFIG_MALI_DVFS) += common/mali_dvfs_policy.o
 
 # Tell the Linux build system from which .o file to create the kernel module
-obj-$(CONFIG_MALI400) := mali.o
+
+obj-$(CONFIG_MALI400) := mali450.o
 
 ccflags-y += $(EXTRA_DEFINES)
 
